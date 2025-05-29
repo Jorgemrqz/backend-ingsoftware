@@ -2,20 +2,26 @@ package com.ingsoftware.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
+import java.math.BigDecimal;
+
 
 @Entity
-@Table(name = "clase")
+@Table(name = "comprobante_venta")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Clase {
+public class ComprobanteVenta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String aula;
+    private String numero;
 
-    
+    private LocalDate fechaEmision;
+
+    private BigDecimal total;
+ 
 }

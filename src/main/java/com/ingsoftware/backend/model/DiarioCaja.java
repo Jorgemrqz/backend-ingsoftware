@@ -1,9 +1,8 @@
-package com.tuempresa.sistemaeducativo.entity;
+package com.ingsoftware.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @Table(name = "diario_caja")

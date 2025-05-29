@@ -1,4 +1,4 @@
-package com.tuempresa.sistemaeducativo.entity;
+package com.ingsoftware.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;

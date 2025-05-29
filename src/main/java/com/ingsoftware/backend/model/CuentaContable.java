@@ -1,8 +1,7 @@
-package com.tuempresa.sistemaeducativo.entity;
+package com.ingsoftware.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "cuenta_contable")
