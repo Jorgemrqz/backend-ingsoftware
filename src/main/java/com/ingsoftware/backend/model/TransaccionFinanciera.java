@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,4 +34,12 @@ public class TransaccionFinanciera {
     private BigDecimal monto;
 
     private LocalDate fecha;
+
+    @ManyToOne
+    @JoinColumn(name = "diario_caja_id")
+    private DiarioCaja diarioCaja;
+
+    @ManyToOne
+    @JoinColumn(name = "cuenta_contable_id")
+    private CuentaContable cuentaContable;
 }

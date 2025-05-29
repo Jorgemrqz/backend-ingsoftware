@@ -8,6 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,4 +35,17 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     private RolEnum rol;
+
+    @OneToOne(mappedBy = "usuario")
+    private Estudiante estudiante;
+
+    @OneToOne(mappedBy = "usuario")
+    private Docente docente;
+
+    @OneToOne(mappedBy = "usuario")
+    private PersonalAdministrativo personalAdministrativo;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "perfil_acceso_id")
+    private PerfilAcceso perfilAcceso;
 }

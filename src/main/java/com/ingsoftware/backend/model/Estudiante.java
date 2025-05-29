@@ -3,6 +3,7 @@ package com.ingsoftware.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "estudiante")
@@ -27,5 +28,18 @@ public class Estudiante {
     private String direccion;
 
     private String contactoEmergencia;
+    
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @OneToMany(mappedBy = "estudiante")
+    private Set<Matricula> matriculas;
+
+    @OneToMany(mappedBy = "estudiante")
+    private Set<Calificacion> calificaciones;
+
+    @OneToMany(mappedBy = "estudiante")
+    private Set<ComprobanteVenta> comprobantesVenta;
 
 }

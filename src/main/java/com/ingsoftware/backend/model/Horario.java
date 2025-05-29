@@ -22,4 +22,7 @@ public class Horario {
 
     private LocalTime horaFin;
 
+    @ManyToOne
+    @JoinColumn(name = "clase_id")
+    private Clase clase;
 }

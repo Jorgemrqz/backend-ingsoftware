@@ -1,5 +1,7 @@
 package com.ingsoftware.backend.model;
 
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +23,13 @@ public class Docente {
 
     private String especialidad;
 
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToMany(mappedBy = "docentes")
+    private Set<Grupo> grupos;
+
+    @OneToMany(mappedBy = "docente")
+    private Set<Clase> clases;
 }

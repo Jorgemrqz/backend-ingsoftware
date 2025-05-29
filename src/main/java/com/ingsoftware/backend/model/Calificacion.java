@@ -21,5 +21,16 @@ public class Calificacion {
     private String comentario;
 
     private LocalDate fechaRegistro;
- 
+    
+    @ManyToOne
+    @JoinColumn(name = "estudiante_id")
+    private Estudiante estudiante;
+
+    @ManyToOne
+    @JoinColumn(name = "asignatura_id")
+    private Asignatura asignatura;
+
+    @ManyToOne
+    @JoinColumn(name = "clase_id")
+    private Clase clase;
 }

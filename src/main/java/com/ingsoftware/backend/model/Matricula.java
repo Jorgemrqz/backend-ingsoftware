@@ -35,4 +35,6 @@ public class Matricula {
     )
     private Set<Rubro> rubros;
 
+    @ManyToMany(mappedBy = "matriculas")
+    private Set<Clase> clases;
 }

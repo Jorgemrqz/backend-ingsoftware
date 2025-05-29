@@ -3,6 +3,7 @@ package com.ingsoftware.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.Set;
 import java.math.BigDecimal;
 
 
@@ -23,5 +24,12 @@ public class ComprobanteVenta {
     private LocalDate fechaEmision;
 
     private BigDecimal total;
+
+    @ManyToOne
+    @JoinColumn(name = "estudiante_id")
+    private Estudiante estudiante;
+
+    @ManyToMany(mappedBy = "comprobantesVenta")
+    private Set<Rubro> rubros;
  
 }

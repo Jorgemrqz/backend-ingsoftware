@@ -3,6 +3,7 @@ package com.ingsoftware.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "diario_caja")
@@ -17,4 +18,8 @@ public class DiarioCaja {
     private Long id;
 
     private LocalDate fecha;
+
+    
+    @OneToMany(mappedBy = "diarioCaja")
+    private Set<TransaccionFinanciera> transacciones;
 }
