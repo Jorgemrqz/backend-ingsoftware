@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/diariocaja")
+@RequestMapping("/api/diarios-cajas")
 @CrossOrigin(origins = "*")
 public class DiarioCajaController {
 
