@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+ 
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +31,12 @@ public class CuentaContableController {
     }
 
     @PostMapping
-    public ResponseEntity<CuentaContable> create(@Valid @RequestBody CuentaContable cuenta) {
+    public ResponseEntity<CuentaContable> create(@RequestBody CuentaContable cuenta) {
         return new ResponseEntity<>(cuentaService.createCuenta(cuenta), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CuentaContable> update(@PathVariable Long id, @Valid @RequestBody CuentaContable cuenta) {
+    public ResponseEntity<CuentaContable> update(@PathVariable Long id, @RequestBody CuentaContable cuenta) {
         if (cuentaService.getCuenta(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }

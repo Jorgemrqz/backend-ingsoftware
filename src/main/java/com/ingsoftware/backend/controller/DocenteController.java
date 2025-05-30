@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+ 
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +31,12 @@ public class DocenteController {
     }
 
     @PostMapping
-    public ResponseEntity<Docente> create(@Valid @RequestBody Docente docente) {
+    public ResponseEntity<Docente> create(@RequestBody Docente docente) {
         return new ResponseEntity<>(docenteService.createDocente(docente), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Docente> update(@PathVariable Long id, @Valid @RequestBody Docente docente) {
+    public ResponseEntity<Docente> update(@PathVariable Long id, @RequestBody Docente docente) {
         if (docenteService.getDocente(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }

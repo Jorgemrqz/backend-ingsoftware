@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/api/asignaturas")
 @CrossOrigin(origins = "*")
@@ -34,13 +32,13 @@ public class AsignaturaController {
     }
 
     @PostMapping
-    public ResponseEntity<Asignatura> createAsignatura(@Valid @RequestBody Asignatura asignatura) {
+    public ResponseEntity<Asignatura> createAsignatura(@RequestBody Asignatura asignatura) {
         Asignatura nueva = asignaturaService.createAsignatura(asignatura);
         return new ResponseEntity<>(nueva, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Asignatura> updateAsignatura(@PathVariable Long id, @Valid @RequestBody Asignatura asignatura) {
+    public ResponseEntity<Asignatura> updateAsignatura(@PathVariable Long id, @RequestBody Asignatura asignatura) {
         Optional<Asignatura> existente = asignaturaService.getAsignatura(id);
         if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();

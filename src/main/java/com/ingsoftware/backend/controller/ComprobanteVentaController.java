@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +30,12 @@ public class ComprobanteVentaController {
     }
 
     @PostMapping
-    public ResponseEntity<ComprobanteVenta> create(@Valid @RequestBody ComprobanteVenta c) {
+    public ResponseEntity<ComprobanteVenta> create(@RequestBody ComprobanteVenta c) {
         return new ResponseEntity<>(comprobanteService.createComprobante(c), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ComprobanteVenta> update(@PathVariable Long id, @Valid @RequestBody ComprobanteVenta c) {
+    public ResponseEntity<ComprobanteVenta> update(@PathVariable Long id, @RequestBody ComprobanteVenta c) {
         if (comprobanteService.getComprobante(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }

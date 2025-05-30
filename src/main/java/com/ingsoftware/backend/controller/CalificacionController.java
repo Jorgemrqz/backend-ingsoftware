@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +32,13 @@ public class CalificacionController {
     }
 
     @PostMapping
-    public ResponseEntity<Calificacion> createCalificacion(@Valid @RequestBody Calificacion calificacion) {
+    public ResponseEntity<Calificacion> createCalificacion(@RequestBody Calificacion calificacion) {
         Calificacion nueva = calificacionService.createCalificacion(calificacion);
         return new ResponseEntity<>(nueva, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Calificacion> updateCalificacion(@PathVariable Long id, @Valid @RequestBody Calificacion calificacion) {
+    public ResponseEntity<Calificacion> updateCalificacion(@PathVariable Long id, @RequestBody Calificacion calificacion) {
         Optional<Calificacion> existente = calificacionService.getCalificacion(id);
         if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();

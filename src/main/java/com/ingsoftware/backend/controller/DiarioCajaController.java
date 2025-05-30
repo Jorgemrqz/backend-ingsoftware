@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +30,12 @@ public class DiarioCajaController {
     }
 
     @PostMapping
-    public ResponseEntity<DiarioCaja> create(@Valid @RequestBody DiarioCaja diario) {
+    public ResponseEntity<DiarioCaja> create(@RequestBody DiarioCaja diario) {
         return new ResponseEntity<>(diarioService.createDiario(diario), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DiarioCaja> update(@PathVariable Long id, @Valid @RequestBody DiarioCaja diario) {
+    public ResponseEntity<DiarioCaja> update(@PathVariable Long id, @RequestBody DiarioCaja diario) {
         if (diarioService.getDiario(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
