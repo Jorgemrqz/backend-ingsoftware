@@ -19,33 +19,38 @@ public class ClaseController {
 
     @GetMapping
     public ResponseEntity<List<Clase>> getAllClases() {
-        return ResponseEntity.ok(claseService.getClases());
+        List<Clase> clases = claseService.getClases();
+        return new ResponseEntity<>(clases, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Clase> getClaseById(@PathVariable Long id) {
-        return claseService.getClase(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Optional<Clase> clase = claseService.getClase(id);
+        return clase.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Clase> createClase(@RequestBody Clase clase) {
-        return new ResponseEntity<>(claseService.createClase(clase), HttpStatus.CREATED);
+        Clase nueva = claseService.createClase(clase);
+        return new ResponseEntity<>(nueva, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Clase> updateClase(@PathVariable Long id, @RequestBody Clase clase) {
-        if (claseService.getClase(id).isEmpty()) {
+        Optional<Clase> existente = claseService.getClase(id);
+        if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         clase.setId(id);
-        return ResponseEntity.ok(claseService.updateClase(clase));
+        Clase updated = claseService.updateClase(clase);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClase(@PathVariable Long id) {
-        if (claseService.getClase(id).isPresent()) {
+        Optional<Clase> existente = claseService.getClase(id);
+        if (existente.isPresent()) {
             claseService.deleteClase(id);
             return ResponseEntity.noContent().build();
         }
