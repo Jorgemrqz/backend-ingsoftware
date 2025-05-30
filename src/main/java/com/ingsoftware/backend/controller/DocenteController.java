@@ -18,34 +18,39 @@ public class DocenteController {
     private DocenteService docenteService;
 
     @GetMapping
-    public ResponseEntity<List<Docente>> getAll() {
-        return ResponseEntity.ok(docenteService.getDocentes());
+    public ResponseEntity<List<Docente>> getAllDocentes() {
+        List<Docente> docentes = docenteService.getDocentes();
+        return new ResponseEntity<>(docentes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Docente> getById(@PathVariable Long id) {
-        return docenteService.getDocente(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Docente> getDocenteById(@PathVariable Long id) {
+        Optional<Docente> docente = docenteService.getDocente(id);
+        return docente.map(ResponseEntity::ok)
+                      .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Docente> create(@RequestBody Docente docente) {
-        return new ResponseEntity<>(docenteService.createDocente(docente), HttpStatus.CREATED);
+    public ResponseEntity<Docente> createDocente(@RequestBody Docente docente) {
+        Docente nuevo = docenteService.createDocente(docente);
+        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Docente> update(@PathVariable Long id, @RequestBody Docente docente) {
-        if (docenteService.getDocente(id).isEmpty()) {
+    public ResponseEntity<Docente> updateDocente(@PathVariable Long id, @RequestBody Docente docente) {
+        Optional<Docente> existente = docenteService.getDocente(id);
+        if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         docente.setId(id);
-        return ResponseEntity.ok(docenteService.updateDocente(docente));
+        Docente updated = docenteService.updateDocente(docente);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (docenteService.getDocente(id).isPresent()) {
+    public ResponseEntity<Void> deleteDocente(@PathVariable Long id) {
+        Optional<Docente> existente = docenteService.getDocente(id);
+        if (existente.isPresent()) {
             docenteService.deleteDocente(id);
             return ResponseEntity.noContent().build();
         }

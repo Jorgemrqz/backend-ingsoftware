@@ -3,8 +3,7 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.Calificacion;
 import com.ingsoftware.backend.services.CalificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class CalificacionController {
     public ResponseEntity<Calificacion> getCalificacionById(@PathVariable Long id) {
         Optional<Calificacion> calificacion = calificacionService.getCalificacion(id);
         return calificacion.map(ResponseEntity::ok)
-                           .orElseGet(() -> ResponseEntity.notFound().build());
+                           .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -44,8 +43,8 @@ public class CalificacionController {
             return ResponseEntity.notFound().build();
         }
         calificacion.setId(id);
-        Calificacion actualizada = calificacionService.updateCalificacion(calificacion);
-        return ResponseEntity.ok(actualizada);
+        Calificacion updated = calificacionService.updateCalificacion(calificacion);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
@@ -53,9 +52,8 @@ public class CalificacionController {
         Optional<Calificacion> existente = calificacionService.getCalificacion(id);
         if (existente.isPresent()) {
             calificacionService.deleteCalificacion(id);
-            return ResponseEntity.noContent().build(); // 204 No Content
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.notFound().build();
     }
 }

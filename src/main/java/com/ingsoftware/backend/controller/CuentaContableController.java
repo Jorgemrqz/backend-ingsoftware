@@ -15,38 +15,43 @@ import java.util.Optional;
 public class CuentaContableController {
 
     @Autowired
-    private CuentaContableService cuentaService;
+    private CuentaContableService cuentaContableService;
 
     @GetMapping
-    public ResponseEntity<List<CuentaContable>> getAll() {
-        return ResponseEntity.ok(cuentaService.getCuentas());
+    public ResponseEntity<List<CuentaContable>> getAllCuentasContables() {
+        List<CuentaContable> cuentas = cuentaContableService.getCuentasContables();
+        return new ResponseEntity<>(cuentas, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CuentaContable> getById(@PathVariable Long id) {
-        return cuentaService.getCuenta(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<CuentaContable> getCuentaContableById(@PathVariable Long id) {
+        Optional<CuentaContable> cuenta = cuentaContableService.getCuentaContable(id);
+        return cuenta.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<CuentaContable> create(@RequestBody CuentaContable cuenta) {
-        return new ResponseEntity<>(cuentaService.createCuenta(cuenta), HttpStatus.CREATED);
+    public ResponseEntity<CuentaContable> createCuentaContable(@RequestBody CuentaContable cuenta) {
+        CuentaContable nueva = cuentaContableService.createCuentaContable(cuenta);
+        return new ResponseEntity<>(nueva, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CuentaContable> update(@PathVariable Long id, @RequestBody CuentaContable cuenta) {
-        if (cuentaService.getCuenta(id).isEmpty()) {
+    public ResponseEntity<CuentaContable> updateCuentaContable(@PathVariable Long id, @RequestBody CuentaContable cuenta) {
+        Optional<CuentaContable> existente = cuentaContableService.getCuentaContable(id);
+        if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         cuenta.setId(id);
-        return ResponseEntity.ok(cuentaService.updateCuenta(cuenta));
+        CuentaContable updated = cuentaContableService.updateCuentaContable(cuenta);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (cuentaService.getCuenta(id).isPresent()) {
-            cuentaService.deleteCuenta(id);
+    public ResponseEntity<Void> deleteCuentaContable(@PathVariable Long id) {
+        Optional<CuentaContable> existente = cuentaContableService.getCuentaContable(id);
+        if (existente.isPresent()) {
+            cuentaContableService.deleteCuentaContable(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

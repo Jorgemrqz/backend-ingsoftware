@@ -3,11 +3,11 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.Asignatura;
 import com.ingsoftware.backend.services.AsignaturaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/asignaturas")
@@ -27,7 +27,7 @@ public class AsignaturaController {
     public ResponseEntity<Asignatura> getAsignaturaById(@PathVariable Long id) {
         Optional<Asignatura> asignatura = asignaturaService.getAsignatura(id);
         return asignatura.map(ResponseEntity::ok)
-                         .orElseGet(() -> ResponseEntity.notFound().build());
+                         .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -52,9 +52,8 @@ public class AsignaturaController {
         Optional<Asignatura> existente = asignaturaService.getAsignatura(id);
         if (existente.isPresent()) {
             asignaturaService.deleteAsignatura(id);
-            return ResponseEntity.noContent().build(); // 204 No Content
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.notFound().build();
     }
 }

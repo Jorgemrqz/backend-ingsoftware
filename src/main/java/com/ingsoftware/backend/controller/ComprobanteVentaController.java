@@ -10,43 +10,48 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/comprobantes-ventas")
+@RequestMapping("/api/comprobantes-venta")
 @CrossOrigin(origins = "*")
 public class ComprobanteVentaController {
 
     @Autowired
-    private ComprobanteVentaService comprobanteService;
+    private ComprobanteVentaService comprobanteVentaService;
 
     @GetMapping
-    public ResponseEntity<List<ComprobanteVenta>> getAll() {
-        return ResponseEntity.ok(comprobanteService.getComprobantes());
+    public ResponseEntity<List<ComprobanteVenta>> getAllComprobantes() {
+        List<ComprobanteVenta> comprobantes = comprobanteVentaService.getComprobantesVenta();
+        return new ResponseEntity<>(comprobantes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ComprobanteVenta> getById(@PathVariable Long id) {
-        return comprobanteService.getComprobante(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ComprobanteVenta> getComprobanteById(@PathVariable Long id) {
+        Optional<ComprobanteVenta> comprobante = comprobanteVentaService.getComprobanteVenta(id);
+        return comprobante.map(ResponseEntity::ok)
+                          .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ComprobanteVenta> create(@RequestBody ComprobanteVenta c) {
-        return new ResponseEntity<>(comprobanteService.createComprobante(c), HttpStatus.CREATED);
+    public ResponseEntity<ComprobanteVenta> createComprobante(@RequestBody ComprobanteVenta comprobante) {
+        ComprobanteVenta nuevo = comprobanteVentaService.createComprobanteVenta(comprobante);
+        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ComprobanteVenta> update(@PathVariable Long id, @RequestBody ComprobanteVenta c) {
-        if (comprobanteService.getComprobante(id).isEmpty()) {
+    public ResponseEntity<ComprobanteVenta> updateComprobante(@PathVariable Long id, @RequestBody ComprobanteVenta comprobante) {
+        Optional<ComprobanteVenta> existente = comprobanteVentaService.getComprobanteVenta(id);
+        if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        c.setId(id);
-        return ResponseEntity.ok(comprobanteService.updateComprobante(c));
+        comprobante.setId(id);
+        ComprobanteVenta updated = comprobanteVentaService.updateComprobanteVenta(comprobante);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (comprobanteService.getComprobante(id).isPresent()) {
-            comprobanteService.deleteComprobante(id);
+    public ResponseEntity<Void> deleteComprobante(@PathVariable Long id) {
+        Optional<ComprobanteVenta> existente = comprobanteVentaService.getComprobanteVenta(id);
+        if (existente.isPresent()) {
+            comprobanteVentaService.deleteComprobanteVenta(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

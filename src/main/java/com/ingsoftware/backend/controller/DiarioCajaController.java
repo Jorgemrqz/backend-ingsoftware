@@ -10,43 +10,48 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/diarios-cajas")
+@RequestMapping("/api/diarios-caja")
 @CrossOrigin(origins = "*")
 public class DiarioCajaController {
 
     @Autowired
-    private DiarioCajaService diarioService;
+    private DiarioCajaService diarioCajaService;
 
     @GetMapping
-    public ResponseEntity<List<DiarioCaja>> getAll() {
-        return ResponseEntity.ok(diarioService.getDiarios());
+    public ResponseEntity<List<DiarioCaja>> getAllDiarios() {
+        List<DiarioCaja> diarios = diarioCajaService.getDiariosCaja();
+        return new ResponseEntity<>(diarios, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DiarioCaja> getById(@PathVariable Long id) {
-        return diarioService.getDiario(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<DiarioCaja> getDiarioById(@PathVariable Long id) {
+        Optional<DiarioCaja> diario = diarioCajaService.getDiarioCaja(id);
+        return diario.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<DiarioCaja> create(@RequestBody DiarioCaja diario) {
-        return new ResponseEntity<>(diarioService.createDiario(diario), HttpStatus.CREATED);
+    public ResponseEntity<DiarioCaja> createDiario(@RequestBody DiarioCaja diario) {
+        DiarioCaja nuevo = diarioCajaService.createDiarioCaja(diario);
+        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DiarioCaja> update(@PathVariable Long id, @RequestBody DiarioCaja diario) {
-        if (diarioService.getDiario(id).isEmpty()) {
+    public ResponseEntity<DiarioCaja> updateDiario(@PathVariable Long id, @RequestBody DiarioCaja diario) {
+        Optional<DiarioCaja> existente = diarioCajaService.getDiarioCaja(id);
+        if (existente.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         diario.setId(id);
-        return ResponseEntity.ok(diarioService.updateDiario(diario));
+        DiarioCaja updated = diarioCajaService.updateDiarioCaja(diario);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (diarioService.getDiario(id).isPresent()) {
-            diarioService.deleteDiario(id);
+    public ResponseEntity<Void> deleteDiario(@PathVariable Long id) {
+        Optional<DiarioCaja> existente = diarioCajaService.getDiarioCaja(id);
+        if (existente.isPresent()) {
+            diarioCajaService.deleteDiarioCaja(id);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
