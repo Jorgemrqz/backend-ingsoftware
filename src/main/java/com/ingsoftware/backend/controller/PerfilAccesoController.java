@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api/perfilacceso")
+@RequestMapping("api/perfil-acceso")
 public class PerfilAccesoController {
 
     @Autowired
@@ -71,5 +71,5 @@ public class PerfilAccesoController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-}
+} 
 
