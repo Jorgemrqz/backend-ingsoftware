@@ -74,12 +74,10 @@ Este backend implementa todos los módulos funcionales requeridos para una insti
 1. Clona el repositorio:
    ```bash
    git clone https://github.com/Jorgemrqz/backend-ingsoftware.git
-   cd sistema-educativo
+   cd backend-ingsoftware
    ```
 
 2. Ejecuta la aplicación:
-   - Desde tu IDE (Eclipse/IntelliJ) ejecuta la clase `SistemaEducativoApplication`
-   - O bien con Maven:
      ```bash
      mvn spring-boot:run
      ```
