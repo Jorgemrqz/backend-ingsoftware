@@ -4,7 +4,7 @@ Este proyecto es un sistema backend desarrollado en Spring Boot para la gestión
 
 ## 🚀 Tecnologías utilizadas
 
-- Java 17
+- Java 21
 - Spring Boot
   - spring-boot-starter-web
   - spring-boot-starter-data-jpa
@@ -73,7 +73,7 @@ Este backend implementa todos los módulos funcionales requeridos para una insti
 
 1. Clona el repositorio:
    ```bash
-   git clone [https://github.com/tuusuario/sistema-educativo.git](https://github.com/Jorgemrqz/backend-ingsoftware.git)
+   git clone https://github.com/Jorgemrqz/backend-ingsoftware.git
    cd sistema-educativo
    ```
 
