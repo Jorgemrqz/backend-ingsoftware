@@ -1,4 +1,4 @@
-# 📚 Sistema de Gestión Educativa - Spring Boot
+#  Sistema de Gestión Educativa - Spring Boot
 
 Este proyecto es un sistema backend desarrollado en Spring Boot para la gestión integral de una institución educativa. El sistema abarca funcionalidades como gestión de estudiantes, docentes, asignaturas, matrículas, horarios, calificaciones, ingresos/egresos y emisión de comprobantes.
 
@@ -19,7 +19,7 @@ Este proyecto es un sistema backend desarrollado en Spring Boot para la gestión
 ```
 src/main/java/com/tuempresa/sistemaeducativo/
 │
-├── entity/               # Entidades JPA del sistema
+├── model/               # Entidades JPA del sistema
 │   └── Usuario.java, Estudiante.java, Clase.java, etc.
 │
 ├── repository/           # Interfaces JpaRepository
@@ -35,8 +35,7 @@ src/main/java/com/tuempresa/sistemaeducativo/
 ```
 
 ## 🧩 Módulos del sistema
-
-El backend implementa los siguientes módulos requeridos en la práctica:
+Este backend implementa todos los módulos funcionales requeridos para una institución educativa. Cada módulo está representado por las entidades JPA correspondientes, sus repositorios, servicios y controladores REST. Aunque no están organizados como paquetes separados, su estructura sigue un esquema modelo/repositorio/servicio/controlador que permite implementar la lógica de negocio fácilmente.
 
 1. Configuración:
    - Usuarios y perfiles de acceso
@@ -90,6 +89,8 @@ El backend implementa los siguientes módulos requeridos en la práctica:
    - JDBC URL: `jdbc:h2:mem:testdb`
    - Usuario: `sa`
    - Contraseña: (en blanco)
+  
+Nota: aunque las funcionalidades aún no están implementadas, el modelo de datos está completamente diseñado para soportarlas.
 
 ## 📘 Documentación de la API (Swagger UI)
 
@@ -97,27 +98,22 @@ El proyecto incluye documentación automática con OpenAPI/Swagger gracias a la 
 
 Una vez la aplicación esté corriendo, puedes acceder a la interfaz Swagger UI en:
 
-🔗 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+🔗 [[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui/index.html#/)] 
 
-Desde ahí podrás explorar y probar todos los endpoints REST del sistema.
-
-## 🧪 Pruebas
-
-El proyecto incluye dependencias para pruebas con JUnit. Puedes crear pruebas unitarias para servicios y controladores en el paquete `src/test/java`.
+Desde ahí se podrá explorar y probar todos los endpoints REST del sistema.
 
 ## 🧠 Notas
 
-- Se aplica el esquema Modelo → Repositorio → Servicio → Controlador para cumplir con las buenas prácticas de diseño y el punto 7.5 de la práctica.
+- Se aplica el esquema Modelo → Repositorio → Servicio → Controlador para cumplir con las buenas prácticas de diseño.
 - Las entidades están generadas a partir de un modelo UML, y cada una tiene su JpaRepository.
 - Se usa Lombok para reducir código boilerplate como getters/setters y constructores.
 
 ## 📌 ToDo / Mejoras futuras
 
 - Agregar autenticación y seguridad con Spring Security
-- Exponer documentación Swagger para la API
 - Integración con base de datos real (MySQL/PostgreSQL)
 - Implementación de DTOs para separación de modelos
 
 ## 🧑‍💻 Autor
 
-Desarrollado por [Tu Nombre] como parte de la práctica profesional del sistema de institución educativa.
+Desarrollado por Jorge Márquez, Roberto Romero, Erika Villa.
