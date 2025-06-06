@@ -73,7 +73,7 @@ Este backend implementa todos los módulos funcionales requeridos para una insti
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tuusuario/sistema-educativo.git
+   git clone [https://github.com/tuusuario/sistema-educativo.git](https://github.com/Jorgemrqz/backend-ingsoftware.git)
    cd sistema-educativo
    ```
 
