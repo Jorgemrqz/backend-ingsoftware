@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsoftware.backend.model.PersonalAdministrativo;
-import com.ingsoftware.backend.services.PersonalAdministrativoImpl;
+import com.ingsoftware.backend.services.PersonalAdministrativoService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -26,16 +26,16 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class PersonalAdministrativoController {
 
     @Autowired
-    private PersonalAdministrativoImpl pAdministrativoImpl;
+    private PersonalAdministrativoService pAdministrativoService;
 
     @GetMapping
     public ResponseEntity<List<PersonalAdministrativo>> getPersonalAdministrativo() {
-        return new ResponseEntity<>(this.pAdministrativoImpl.getPersonalAdministrativo(), HttpStatus.OK);
+        return new ResponseEntity<>(this.pAdministrativoService.getPersonalAdministrativo(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PersonalAdministrativo> getPersonalAdministrativo(@PathVariable Long id) {
-        Optional<PersonalAdministrativo> persona = this.pAdministrativoImpl.getPersona(id);
+        Optional<PersonalAdministrativo> persona = this.pAdministrativoService.getPersona(id);
         if (persona.isPresent()) {
             return new ResponseEntity<>(persona.get(), HttpStatus.OK);
         }
@@ -45,7 +45,7 @@ public class PersonalAdministrativoController {
     @PostMapping
     public ResponseEntity<PersonalAdministrativo> createPersonalAdministrativo(@RequestBody PersonalAdministrativo persona) {
         try {
-            PersonalAdministrativo newPersona = this.pAdministrativoImpl.createAdministrativo(persona);
+            PersonalAdministrativo newPersona = this.pAdministrativoService.createAdministrativo(persona);
             return new ResponseEntity<>(newPersona, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,7 +55,7 @@ public class PersonalAdministrativoController {
     @PutMapping
     public ResponseEntity<PersonalAdministrativo> updatePersonalAdministrativo(@RequestBody PersonalAdministrativo periodo) {
         try {
-            PersonalAdministrativo personaUpdated = this.pAdministrativoImpl.updateAdministrativo(periodo);
+            PersonalAdministrativo personaUpdated = this.pAdministrativoService.updateAdministrativo(periodo);
             return new ResponseEntity<>(personaUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,9 +64,9 @@ public class PersonalAdministrativoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePersonalAdministrativo(@PathVariable Long id) {
-        Optional<PersonalAdministrativo> persona = this.pAdministrativoImpl.getPersona(id);
+        Optional<PersonalAdministrativo> persona = this.pAdministrativoService.getPersona(id);
         if (persona.isPresent()) {       
-            this.pAdministrativoImpl.deletePersonalAdministrativo(persona.get().getId());
+            this.pAdministrativoService.deletePersonalAdministrativo(persona.get().getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsoftware.backend.model.PeriodoLectivo;
-import com.ingsoftware.backend.services.PeriodoLectivoImpl;
+import com.ingsoftware.backend.services.PeriodoLectivoService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -26,16 +26,16 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class PeriodoLectivoController {
 
     @Autowired
-    private PeriodoLectivoImpl pLectivoImpl;
+    private PeriodoLectivoService pLectivoService;
 
     @GetMapping
     public ResponseEntity<List<PeriodoLectivo>> getPeriodosLectivos() {
-        return new ResponseEntity<>(this.pLectivoImpl.getPeriodosLectivos(), HttpStatus.OK);
+        return new ResponseEntity<>(this.pLectivoService.getPeriodosLectivos(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PeriodoLectivo> getPeriodoLectivo(@PathVariable Long id) {
-        Optional<PeriodoLectivo> periodo = this.pLectivoImpl.getPeriodoLectivo(id);
+        Optional<PeriodoLectivo> periodo = this.pLectivoService.getPeriodoLectivo(id);
         if (periodo.isPresent()) {
             return new ResponseEntity<>(periodo.get(), HttpStatus.OK);
         }
@@ -45,7 +45,7 @@ public class PeriodoLectivoController {
     @PostMapping
     public ResponseEntity<PeriodoLectivo> createPeriodoLectivo(@RequestBody PeriodoLectivo periodo) {
         try {
-            PeriodoLectivo newPeriodo = this.pLectivoImpl.createPeriodoLectivo(periodo);
+            PeriodoLectivo newPeriodo = this.pLectivoService.createPeriodoLectivo(periodo);
             return new ResponseEntity<>(newPeriodo, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,7 +55,7 @@ public class PeriodoLectivoController {
     @PutMapping
     public ResponseEntity<PeriodoLectivo> updatePeriodoLectivo(@RequestBody PeriodoLectivo periodo) {
         try {
-            PeriodoLectivo periodoUpdated = this.pLectivoImpl.updatePeriodoLectivo(periodo);
+            PeriodoLectivo periodoUpdated = this.pLectivoService.updatePeriodoLectivo(periodo);
             return new ResponseEntity<>(periodoUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,9 +64,9 @@ public class PeriodoLectivoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePeriodoLectivo(@PathVariable Long id) {
-        Optional<PeriodoLectivo> periodo = this.pLectivoImpl.getPeriodoLectivo(id);
+        Optional<PeriodoLectivo> periodo = this.pLectivoService.getPeriodoLectivo(id);
         if (periodo.isPresent()) {       
-            this.pLectivoImpl.deletePeriodoLectivo(periodo.get().getId());
+            this.pLectivoService.deletePeriodoLectivo(periodo.get().getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

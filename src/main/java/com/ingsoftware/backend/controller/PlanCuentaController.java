@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsoftware.backend.model.PlanCuenta;
-import com.ingsoftware.backend.services.PlanCuentaImpl;
+import com.ingsoftware.backend.services.PlanCuentaService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -26,16 +26,16 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class PlanCuentaController {
 
     @Autowired
-    PlanCuentaImpl pCuentaImpl;
+    private PlanCuentaService pCuentaService;
 
     @GetMapping
     public ResponseEntity<List<PlanCuenta>> getPlanes() {
-        return new ResponseEntity<>(this.pCuentaImpl.getPlanes(), HttpStatus.OK);
+        return new ResponseEntity<>(this.pCuentaService.getPlanes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanCuenta> getPlanCuenta(@PathVariable Long id) {
-        Optional<PlanCuenta> plan = this.pCuentaImpl.getPlan(id);
+        Optional<PlanCuenta> plan = this.pCuentaService.getPlan(id);
         if (plan.isPresent()) {
             return new ResponseEntity<>(plan.get(), HttpStatus.OK);
         }
@@ -45,7 +45,7 @@ public class PlanCuentaController {
     @PostMapping
     public ResponseEntity<PlanCuenta> createPlanCuenta(@RequestBody PlanCuenta plan) {
         try {
-            PlanCuenta newPlan = this.pCuentaImpl.createPlanCuenta(plan);
+            PlanCuenta newPlan = this.pCuentaService.createPlanCuenta(plan);
             return new ResponseEntity<>(newPlan, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,7 +55,7 @@ public class PlanCuentaController {
     @PutMapping
     public ResponseEntity<PlanCuenta> updatePlanCuenta(@RequestBody PlanCuenta plan) {
         try {
-            PlanCuenta planUpdated = this.pCuentaImpl.updatePlanCuenta(plan);
+            PlanCuenta planUpdated = this.pCuentaService.updatePlanCuenta(plan);
             return new ResponseEntity<>(planUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,9 +64,9 @@ public class PlanCuentaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlanCuenta(@PathVariable Long id) {
-        Optional<PlanCuenta> plan = this.pCuentaImpl.getPlan(id);
+        Optional<PlanCuenta> plan = this.pCuentaService.getPlan(id);
         if (plan.isPresent()) {       
-            this.pCuentaImpl.deletePlanCuenta(plan.get().getId());
+            this.pCuentaService.deletePlanCuenta(plan.get().getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

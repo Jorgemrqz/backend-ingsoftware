@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsoftware.backend.model.Rubro;
-import com.ingsoftware.backend.services.RubroImpl;
+import com.ingsoftware.backend.services.RubroService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -26,16 +26,16 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class RubroController {
 
     @Autowired
-    private RubroImpl rImpl;
+    private RubroService rService;
 
     @GetMapping
     public ResponseEntity<List<Rubro>> getRubros() {
-        return new ResponseEntity<>(this.rImpl.getRubros(), HttpStatus.OK);
+        return new ResponseEntity<>(this.rService.getRubros(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Rubro> getRubro(@PathVariable Long id) {
-        Optional<Rubro> rubro = this.rImpl.getRubro(id);
+        Optional<Rubro> rubro = this.rService.getRubro(id);
         if (rubro.isPresent()) {
             return new ResponseEntity<>(rubro.get(), HttpStatus.OK);
         }
@@ -45,7 +45,7 @@ public class RubroController {
     @PostMapping
     public ResponseEntity<Rubro> createRubro(@RequestBody Rubro rubro) {
         try {
-           Rubro newRubro = this.rImpl.createRubro(rubro);
+           Rubro newRubro = this.rService.createRubro(rubro);
             return new ResponseEntity<>(newRubro, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,7 +55,7 @@ public class RubroController {
     @PutMapping
     public ResponseEntity<Rubro> updateRubro(@RequestBody Rubro rubro) {
         try {
-            Rubro rubroUpdated = this.rImpl.updateRubro(rubro);
+            Rubro rubroUpdated = this.rService.updateRubro(rubro);
             return new ResponseEntity<>(rubroUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,9 +64,9 @@ public class RubroController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRubro(@PathVariable Long id) {
-        Optional<Rubro> rubro = this.rImpl.getRubro(id);
+        Optional<Rubro> rubro = this.rService.getRubro(id);
         if (rubro.isPresent()) {       
-            this.rImpl.deleteRubro(rubro.get().getId());
+            this.rService.deleteRubro(rubro.get().getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
