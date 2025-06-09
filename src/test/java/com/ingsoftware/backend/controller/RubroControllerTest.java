@@ -127,5 +127,36 @@ public class RubroControllerTest {
         mockMvc.perform(delete("/api/rubro/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreateRubro_exceptionThrown_returnsBadRequest() throws Exception {
+        Rubro rubro = new Rubro();
+        rubro.setDescripcion("Matricula");
+        rubro.setMonto(BigDecimal.valueOf(150.00));
+
+        Mockito.when(rubroService.createRubro(any(Rubro.class)))
+            .thenThrow(new RuntimeException("Error simulado"));
+
+        mockMvc.perform(post("/api/rubro")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(rubro)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testUpdateRubro_exceptionThrown_returnsBadRequest() throws Exception {
+        Rubro rubro = new Rubro();
+        rubro.setId(1L);
+        rubro.setDescripcion("Reinscripción");
+        rubro.setMonto(BigDecimal.valueOf(200.00));
+
+        Mockito.when(rubroService.updateRubro(any(Rubro.class)))
+            .thenThrow(new RuntimeException("Error simulado"));
+
+        mockMvc.perform(put("/api/rubro")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(rubro)))
+            .andExpect(status().isBadRequest());
+    }
 }
 

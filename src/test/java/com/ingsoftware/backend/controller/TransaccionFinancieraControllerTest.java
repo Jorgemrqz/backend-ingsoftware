@@ -134,4 +134,34 @@ public class TransaccionFinancieraControllerTest {
         mockMvc.perform(delete("/api/transaccion-financiera/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreateTransaccionFinanciera_exception_returnsBadRequest() throws Exception {
+        TransaccionFinanciera transaccion = new TransaccionFinanciera();
+        transaccion.setDescripcion("Pago matrícula");
+
+        Mockito.when(transaccionService.createTransaccionFinanciera(any(TransaccionFinanciera.class)))
+            .thenThrow(new RuntimeException("Error simulado"));
+
+        mockMvc.perform(post("/api/transaccion-financiera")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(transaccion)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testUpdateTransaccionFinanciera_exception_returnsBadRequest() throws Exception {
+        TransaccionFinanciera transaccion = new TransaccionFinanciera();
+        transaccion.setId(1L);
+        transaccion.setDescripcion("Actualización");
+
+        Mockito.when(transaccionService.updateTransaccionFinanciera(any(TransaccionFinanciera.class)))
+            .thenThrow(new RuntimeException("Error simulado"));
+
+        mockMvc.perform(put("/api/transaccion-financiera")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(transaccion)))
+            .andExpect(status().isBadRequest());
+    }
+
 }

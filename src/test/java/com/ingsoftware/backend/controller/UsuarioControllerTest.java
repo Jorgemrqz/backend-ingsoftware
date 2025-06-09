@@ -137,4 +137,40 @@ public class UsuarioControllerTest {
         mockMvc.perform(delete("/api/usuario/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+void testCreateUsuario_exceptionThrown_returnsBadRequest() throws Exception {
+    Usuario usuario = new Usuario();
+    usuario.setUsername("error");
+    usuario.setPassword("1234");
+    usuario.setRol(RolEnum.ADMIN);
+    usuario.setPerfilAcceso(new PerfilAcceso());
+
+    Mockito.when(usuarioService.createUsuario(any(Usuario.class)))
+           .thenThrow(new RuntimeException("Simulated error"));
+
+    mockMvc.perform(post("/api/usuario")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(usuario)))
+           .andExpect(status().isBadRequest());
+}
+
+@Test
+void testUpdateUsuario_exceptionThrown_returnsBadRequest() throws Exception {
+    Usuario usuario = new Usuario();
+    usuario.setId(1L);
+    usuario.setUsername("error");
+    usuario.setPassword("1234");
+    usuario.setRol(RolEnum.DOCENTE);
+    usuario.setPerfilAcceso(new PerfilAcceso());
+
+    Mockito.when(usuarioService.updateUsuario(any(Usuario.class)))
+           .thenThrow(new RuntimeException("Simulated error"));
+
+    mockMvc.perform(put("/api/usuario")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(usuario)))
+           .andExpect(status().isBadRequest());
+}
+
 }

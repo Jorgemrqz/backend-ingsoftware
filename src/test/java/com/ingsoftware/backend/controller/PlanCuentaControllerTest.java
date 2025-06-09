@@ -126,4 +126,34 @@ public class PlanCuentaControllerTest {
         mockMvc.perform(delete("/api/plan-cuenta/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreatePlanCuenta_exceptionThrown_returnsBadRequest() throws Exception {
+        PlanCuenta plan = new PlanCuenta();
+        plan.setNombre("Nuevo Plan");
+        plan.setDescripcion("Descripción de prueba");
+
+        Mockito.when(planCuentaService.createPlanCuenta(any(PlanCuenta.class)))
+            .thenThrow(new RuntimeException("Simulación de error"));
+
+        mockMvc.perform(post("/api/plan-cuenta")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(plan)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testUpdatePlanCuenta_exceptionThrown_returnsBadRequest() throws Exception {
+        PlanCuenta plan = new PlanCuenta();
+        plan.setId(1L);
+        plan.setNombre("Plan Actualizado");
+
+        Mockito.when(planCuentaService.updatePlanCuenta(any(PlanCuenta.class)))
+            .thenThrow(new RuntimeException("Simulación de error"));
+
+        mockMvc.perform(put("/api/plan-cuenta")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(plan)))
+            .andExpect(status().isBadRequest());
+    }
 }

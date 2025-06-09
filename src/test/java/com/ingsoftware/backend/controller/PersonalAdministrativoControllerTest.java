@@ -128,4 +128,38 @@ public class PersonalAdministrativoControllerTest {
         mockMvc.perform(delete("/api/personal-administrativo/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+void testCreatePersonalAdministrativo_exceptionThrown_returnsBadRequest() throws Exception {
+    PersonalAdministrativo persona = new PersonalAdministrativo();
+    persona.setNombres("Luis");
+    persona.setApellidos("Pérez");
+    persona.setCargo("Contador");
+
+    Mockito.when(personalAdministrativoService.createAdministrativo(any(PersonalAdministrativo.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(post("/api/personal-administrativo")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(persona)))
+           .andExpect(status().isBadRequest());
+}
+
+@Test
+void testUpdatePersonalAdministrativo_exceptionThrown_returnsBadRequest() throws Exception {
+    PersonalAdministrativo persona = new PersonalAdministrativo();
+    persona.setId(1L);
+    persona.setNombres("Ana");
+    persona.setApellidos("Torres");
+    persona.setCargo("Secretaria");
+
+    Mockito.when(personalAdministrativoService.updateAdministrativo(any(PersonalAdministrativo.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(put("/api/personal-administrativo")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(persona)))
+           .andExpect(status().isBadRequest());
+}
+
 }

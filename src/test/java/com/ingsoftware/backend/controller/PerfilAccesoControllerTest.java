@@ -128,4 +128,35 @@ public class PerfilAccesoControllerTest {
         mockMvc.perform(delete("/api/perfil-acceso/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+void testCreatePerfilAcceso_exceptionThrown_returnsBadRequest() throws Exception {
+    PerfilAcceso perfil = new PerfilAcceso();
+    perfil.setNombre("Fallido");
+    perfil.setDescripcion("Descripción de error");
+
+    Mockito.when(perfilAccesoService.createPerfilAccedo(any(PerfilAcceso.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(post("/api/perfil-acceso")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(perfil)))
+           .andExpect(status().isBadRequest());
+}
+
+@Test
+void testUpdatePerfilAcceso_exceptionThrown_returnsBadRequest() throws Exception {
+    PerfilAcceso perfil = new PerfilAcceso();
+    perfil.setId(1L);
+    perfil.setNombre("Error");
+
+    Mockito.when(perfilAccesoService.updatePerfilAcceso(any(PerfilAcceso.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(put("/api/perfil-acceso")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(perfil)))
+           .andExpect(status().isBadRequest());
+}
+
 }

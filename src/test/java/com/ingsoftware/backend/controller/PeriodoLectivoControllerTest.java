@@ -129,4 +129,38 @@ public class PeriodoLectivoControllerTest {
         mockMvc.perform(delete("/api/periodo-lectivo/999"))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+void testCreatePeriodoLectivo_exceptionThrown_returnsBadRequest() throws Exception {
+    PeriodoLectivo periodo = new PeriodoLectivo();
+    periodo.setNombre("Error");
+    periodo.setFechaInicio(LocalDate.of(2024, 1, 1));
+    periodo.setFechaFin(LocalDate.of(2024, 6, 1));
+
+    Mockito.when(periodoLectivoService.createPeriodoLectivo(any(PeriodoLectivo.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(post("/api/periodo-lectivo")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(periodo)))
+           .andExpect(status().isBadRequest());
+}
+
+@Test
+void testUpdatePeriodoLectivo_exceptionThrown_returnsBadRequest() throws Exception {
+    PeriodoLectivo periodo = new PeriodoLectivo();
+    periodo.setId(1L);
+    periodo.setNombre("Actualizar Fallido");
+    periodo.setFechaInicio(LocalDate.of(2024, 1, 1));
+    periodo.setFechaFin(LocalDate.of(2024, 6, 1));
+
+    Mockito.when(periodoLectivoService.updatePeriodoLectivo(any(PeriodoLectivo.class)))
+           .thenThrow(new RuntimeException("Error simulado"));
+
+    mockMvc.perform(put("/api/periodo-lectivo")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(periodo)))
+           .andExpect(status().isBadRequest());
+}
+
 }
