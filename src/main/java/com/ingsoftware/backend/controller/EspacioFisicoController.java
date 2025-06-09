@@ -3,6 +3,7 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.EspacioFisico;
 import com.ingsoftware.backend.services.EspacioFisicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +23,10 @@ public class EspacioFisicoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<EspacioFisico> getEspacioById(@PathVariable Long id) {
-        return espacioFisicoService.getEspacioFisico(id);
+    public ResponseEntity<EspacioFisico> getEspacioById(@PathVariable Long id) {
+        return espacioFisicoService.getEspacioFisico(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
