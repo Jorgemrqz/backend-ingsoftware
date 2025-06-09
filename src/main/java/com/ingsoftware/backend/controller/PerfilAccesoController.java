@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ingsoftware.backend.model.PerfilAcceso;
-import com.ingsoftware.backend.services.PerfilAccesoImpl;
+import com.ingsoftware.backend.services.PerfilAccesoService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,16 +27,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PerfilAccesoController {
 
     @Autowired
-    private PerfilAccesoImpl pAccesoImpl;
+    private PerfilAccesoService pAccesoService;
 
     @GetMapping
     public ResponseEntity<List<PerfilAcceso>> getPerfilesAcceso() {
-        return new ResponseEntity<>(this.pAccesoImpl.getPerfilesAcceso(), HttpStatus.OK);
+        return new ResponseEntity<>(this.pAccesoService.getPerfilesAcceso(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PerfilAcceso> getPerfilAcceso(@PathVariable Long id) {
-        Optional<PerfilAcceso> perfil = this.pAccesoImpl.getPerfilAcceso(id);
+        Optional<PerfilAcceso> perfil = this.pAccesoService.getPerfilAcceso(id);
         if (perfil.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -45,7 +46,7 @@ public class PerfilAccesoController {
     @PostMapping 
     public ResponseEntity<PerfilAcceso> createPerfilAcceso(@RequestBody PerfilAcceso perfil) {
         try {
-            PerfilAcceso newPerfil = this.pAccesoImpl.createPerfilAccedo(perfil);
+            PerfilAcceso newPerfil = this.pAccesoService.createPerfilAccedo(perfil);
             return new ResponseEntity<>(newPerfil, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -55,7 +56,7 @@ public class PerfilAccesoController {
     @PutMapping
     public ResponseEntity<PerfilAcceso> updatePerfilAcceso(@RequestBody PerfilAcceso perfil) {
         try {
-            PerfilAcceso perfilUpdated = this.pAccesoImpl.updatePerfilAcceso(perfil);
+            PerfilAcceso perfilUpdated = this.pAccesoService.updatePerfilAcceso(perfil);
             return new ResponseEntity<>(perfilUpdated, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -64,9 +65,9 @@ public class PerfilAccesoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerfilAcceso(@PathVariable Long id) {
-        Optional<PerfilAcceso> perfil = this.pAccesoImpl.getPerfilAcceso(id);
+        Optional<PerfilAcceso> perfil = this.pAccesoService.getPerfilAcceso(id);
         if (perfil.isPresent()) {       
-            this.pAccesoImpl.deletePerfilAcceso(perfil.get().getId());
+            this.pAccesoService.deletePerfilAcceso(perfil.get().getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
