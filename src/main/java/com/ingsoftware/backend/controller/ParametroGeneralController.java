@@ -3,10 +3,10 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.ParametroGeneral;
 import com.ingsoftware.backend.services.ParametroGeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/parametros-generales")
@@ -22,8 +22,10 @@ public class ParametroGeneralController {
     }
 
     @GetMapping("/{id}")
-    public Optional<ParametroGeneral> getParametroGeneralById(@PathVariable Long id) {
-        return parametroGeneralService.getParametroGeneral(id);
+    public ResponseEntity<ParametroGeneral> getParametroGeneralById(@PathVariable Long id) {
+        return parametroGeneralService.getParametroGeneral(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping

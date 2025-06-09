@@ -3,10 +3,10 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.Matricula;
 import com.ingsoftware.backend.services.MatriculaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/matriculas")
@@ -22,8 +22,10 @@ public class MatriculaController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Matricula> getMatriculaById(@PathVariable Long id) {
-        return matriculaService.getMatricula(id);
+    public ResponseEntity<Matricula> getMatriculaById(@PathVariable Long id) {
+        return matriculaService.getMatricula(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
