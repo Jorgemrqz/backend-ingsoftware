@@ -3,6 +3,7 @@ package com.ingsoftware.backend.controller;
 import com.ingsoftware.backend.model.Grupo;
 import com.ingsoftware.backend.services.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class GrupoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Grupo> getGrupoById(@PathVariable Long id) {
-        return grupoService.getGrupo(id);
-    }
+        public ResponseEntity<Grupo> getGrupoById(@PathVariable Long id) {
+            Optional<Grupo> grupo = grupoService.getGrupo(id);
+            return grupo.map(ResponseEntity::ok)
+                        .orElse(ResponseEntity.notFound().build());
+        }
 
     @PostMapping
     public Grupo createGrupo(@RequestBody Grupo grupo) {
