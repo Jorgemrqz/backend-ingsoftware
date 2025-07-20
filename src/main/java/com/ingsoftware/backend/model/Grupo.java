@@ -2,6 +2,8 @@ package com.ingsoftware.backend.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,6 +40,7 @@ public class Grupo {
     private Set<Docente> docentes;
 
     @OneToMany(mappedBy = "grupo")
+    @JsonIgnore
     private Set<Clase> clases;
 }
 
