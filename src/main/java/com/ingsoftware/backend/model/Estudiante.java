@@ -5,6 +5,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "estudiante")
 @Getter
@@ -34,6 +36,7 @@ public class Estudiante {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "estudiante")
+    @JsonIgnore
     private Set<Matricula> matriculas;
 
     @OneToMany(mappedBy = "estudiante")
