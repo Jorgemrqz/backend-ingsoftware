@@ -83,10 +83,6 @@ public class DocenteControllerTest {
         d.setApellidos("Lopez");
         d.setEspecialidad("Matemáticas");
 
-        Docente created = new Docente(1L, d.getNombres(), d.getApellidos(), d.getEspecialidad(), null, null, null);
-
-        Mockito.when(docenteService.createDocente(any(Docente.class))).thenReturn(created);
-
         mockMvc.perform(post("/api/docentes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(d)))

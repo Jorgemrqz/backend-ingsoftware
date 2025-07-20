@@ -29,9 +29,6 @@ public class Docente {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @ManyToMany(mappedBy = "docentes")
-    private Set<Grupo> grupos;
-
     @OneToMany(mappedBy = "docente")
     @JsonIgnore
     private Set<Clase> clases;
