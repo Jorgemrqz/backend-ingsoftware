@@ -5,6 +5,8 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "matricula")
 @Getter
@@ -36,5 +38,6 @@ public class Matricula {
     private Set<Rubro> rubros;
 
     @ManyToMany(mappedBy = "matriculas")
+    @JsonIgnore
     private Set<Clase> clases;
 }

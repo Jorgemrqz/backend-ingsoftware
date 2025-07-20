@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "horario")
 @Getter
@@ -22,6 +24,7 @@ public class Horario {
 
     private LocalTime horaFin;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "clase_id")
     private Clase clase;
