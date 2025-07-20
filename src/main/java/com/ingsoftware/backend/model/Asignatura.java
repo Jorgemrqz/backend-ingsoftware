@@ -26,6 +26,7 @@ public class Asignatura {
     private String descripcion;
 
     @ManyToMany(mappedBy = "asignaturas")
+    @JsonIgnore
     private Set<Grupo> grupos;
 
     @OneToMany(mappedBy = "asignatura")
@@ -33,5 +34,6 @@ public class Asignatura {
     private Set<Clase> clases;
 
     @OneToMany(mappedBy = "asignatura")
+    @JsonIgnore
     private Set<Calificacion> calificaciones;
 }

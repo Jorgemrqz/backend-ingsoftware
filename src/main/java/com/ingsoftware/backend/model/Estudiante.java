@@ -40,6 +40,7 @@ public class Estudiante {
     private Set<Matricula> matriculas;
 
     @OneToMany(mappedBy = "estudiante")
+    @JsonIgnore
     private Set<Calificacion> calificaciones;
 
     @OneToMany(mappedBy = "estudiante")
