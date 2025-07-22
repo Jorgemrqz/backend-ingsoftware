@@ -3,6 +3,7 @@ package com.ingsoftware.backend.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ingsoftware.backend.model.Rubro;
@@ -11,6 +12,7 @@ import com.ingsoftware.backend.repository.RubroRepository;
 @Service
 public class RubroImpl implements RubroService{
 
+    @Autowired
     RubroRepository rRepository;
 
     @Override
